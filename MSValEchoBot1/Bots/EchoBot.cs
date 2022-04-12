@@ -21,15 +21,19 @@ namespace MSValEchoBot1.Bots
             // В остальных случаях Echo Bot будет возвращать введённый текст.
             string userInputText = turnContext.Activity.Text;
 
+            string replyText = $"Echo: {userInputText}";
+
             // null в userInputText приходит, например, когда в календаре AdaptiveCard юзер выбирает дату и сохраняет её.
             if (userInputText is null)
+            {
+                replyText = "Пришёл null в тексте (заглушка).";
+                await turnContext.SendActivityAsync(MessageFactory.Text(replyText, replyText), cancellationToken);
                 return;
+            }
 
             if (!userInputText.ToLower().Contains("время")) // в любом регистре: "Время", "ВрЕмЯ" - тоже пройдёт.
             {
                 // В остальных случаях Echo Bot будет возвращать введенный текст.
-                string replyText = $"Echo: {userInputText}";
-
                 await turnContext.SendActivityAsync(MessageFactory.Text(replyText, replyText), cancellationToken);
                 return;
             }
