@@ -1,0 +1,92 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.9/MicrosoftTeams.schema.json",
+  "version": "1.0.0",
+  "manifestVersion": "1.9",
+  "id": "33e4e5ce-fb53-4118-8ec5-05bcce76c503",
+  "packageName": "com.company.example",
+  "name": {
+    "short": "VChesnokovBotTeamsApp1",
+    "full": "VChesnokovBotTeamsApp1"
+  },
+  "developer": {
+    "name": "VChesnokovBotTeamsApp1",
+    "mpnId": "",
+    "websiteUrl": "https://localhost:44357",
+    "privacyUrl": "https://localhost:44357/privacy",
+    "termsOfUseUrl": "https://localhost:44357/termsofuse"
+  },
+  "description": {
+    "short": "Short description for VChesnokovBotTeamsApp1.",
+    "full": "Full description of VChesnokovBotTeamsApp1."
+  },
+  "icons": {
+    "outline": "../outline.png",
+    "color": "../color.png"
+  },
+  "accentColor": "#FFFFFF",
+  "bots": [
+    {
+      "botId": "{{{bot-id}}}",
+      "scopes": [
+        "personal",
+        "team",
+        "groupchat"
+      ],
+      "commandLists": [
+        {
+          "commands": [
+            {
+              "title": "welcome",
+              "description": "Resend welcome card of this Bot"
+            },
+            {
+              "title": "learn",
+              "description": "Learn about Adaptive Card and Bot Command"
+            }
+          ],
+          "scopes": [
+            "personal"
+          ]
+        },
+        {
+          "commands": [
+            {
+              "title": "welcome",
+              "description": "Resend welcome card of this Bot"
+            },
+            {
+              "title": "learn",
+              "description": "Learn about Adaptive Card and Bot Command"
+            }
+          ],
+          "scopes": [
+            "team"
+          ]
+        },
+        {
+          "commands": [
+            {
+              "title": "welcome",
+              "description": "Resend welcome card of this Bot"
+            },
+            {
+              "title": "learn",
+              "description": "Learn about Adaptive Card and Bot Command"
+            }
+          ],
+          "scopes": [
+            "groupchat"
+          ]
+        }
+      ],
+      "supportsFiles": false,
+      "isNotificationOnly": false
+    }
+  ],
+  "validDomains": [
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ]
+}
