@@ -1,4 +1,5 @@
-﻿using AdaptiveCards.Templating;
+﻿using AdaptiveCards;
+using AdaptiveCards.Templating;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json;
@@ -17,13 +18,50 @@ namespace VChesnokovBotTeamsApp1.Bots
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            turnContext.Activity.RemoveRecipientMention();
-            var text = turnContext.Activity.Text.Trim().ToLower();
+            // 12.04.2022: В созданном проекте делаем изменения.
+            // Когда в тексте пользователя содержится слово «время», выводить карточку Adaptivecards c датой и временем.
+            // В остальных случаях Echo Bot будет возвращать введенный текст.
+            string userInputText = turnContext.Activity.Text;
 
-            if (text == "welcome")
-                await turnContext.SendActivityAsync(MessageFactory.Attachment(CreateAdaptiveCardActivity(_welcomeAdaptiveCardTemplate, null)), cancellationToken);
-            else if (text == "learn")
-                await turnContext.SendActivityAsync(MessageFactory.Attachment(CreateAdaptiveCardActivity(_learnAdaptiveCardTemplate, likeCountObj)), cancellationToken);
+            if (!userInputText.ToLower().Contains("время")) // в любом регистре: "Время", "ВрЕмЯ" - тоже пройдёт.
+            {
+                // В остальных случаях Echo Bot будет возвращать введенный текст.
+                string replyText = $"Echo: {userInputText}";
+
+                await turnContext.SendActivityAsync(MessageFactory.Text(replyText, replyText), cancellationToken);
+                return;
+            }
+
+            // выводить карточку Adaptivecards c датой и временем.
+            AdaptiveCards.AdaptiveCard card = new AdaptiveCards.AdaptiveCard(new AdaptiveSchemaVersion(1, 0));
+
+            card.Body.Add(new AdaptiveTextBlock()
+            {
+                Text = "Введите дату",
+                Size = AdaptiveTextSize.Medium
+            });
+
+            AdaptiveDateInput input = new AdaptiveDateInput()
+            {
+                Id = "Date",
+                Placeholder = "Введите дату"
+            };
+
+            card.Body.Add(input);
+
+            card.Actions.Add(new AdaptiveSubmitAction()
+            {
+                Title = "Сохранить"
+            });
+
+            Attachment cardAttachment = new Attachment()
+            {
+                ContentType = AdaptiveCard.ContentType,
+                Content = card
+            };
+
+            // отправить медиа контент - карточку типа AdaptiveCard
+            await turnContext.SendActivityAsync(MessageFactory.Attachment(cardAttachment), cancellationToken);
         }
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
