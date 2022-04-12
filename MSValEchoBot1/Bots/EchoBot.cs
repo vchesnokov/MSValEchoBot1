@@ -16,7 +16,7 @@ namespace MSValEchoBot1.Bots
     {
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            // ТМК 12.04.2022: В созданном проекте делаем изменения.
+            // 12.04.2022: В созданном проекте делаем изменения.
             // Когда в тексте пользователя содержится слово «время», выводить карточку Adaptivecards c датой и временем.
             // В остальных случаях Echo Bot будет возвращать введенный текст.
             string userInputText = turnContext.Activity.Text;
